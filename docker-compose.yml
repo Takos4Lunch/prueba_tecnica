@@ -1,10 +1,14 @@
 version: '3.8'
 
 services:
-  php-apache-environment:
-    container_name: php-apache-server
-    image: php:8.0-apache
-    volumes:
-    - ./php/src:/var/www/html/
+  db:
+    container_name: php_app_db
+    image: mysql
+    restart: always
+    environment:
+        MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+        MYSQL_DATABASE: NOTES_DB
+        MYSQL_USER: admin
+        MYSQL_PASSWORD: admin123456
     ports:
-    - 8000:80
+        - "9906:3306"
