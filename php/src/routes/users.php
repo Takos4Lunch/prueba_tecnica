@@ -1,31 +1,37 @@
 <?php
     header( 'Content-Type: application/json' );
-
-    //First, we must switch between the used HTTP verb
+    require_once("php/src/controllers/user_controller.php");
+    //First, we must switch between the requested HTTP verb
     //Then, apply whichever functionality we need
+    $_user = new users;
+
     $method = $_SERVER['REQUEST_METHOD'];
+    //Request body, will be dealt with individually on a per method basis inside the switch statement
+    $entityBody = json_decode(file_get_contents('php://input'), true);
 
     switch (strtoupper($method)) {
         case 'GET':
-            # code...
-            echo json_encode(' get');
+            $id = $entityBody['ID'];
+            echo  json_encode($_user->getUser($id));
             break;
         case 'PUT':
             # code...
-            echo json_encode(' put');
+            echo json_encode($_user->putUser($entityBody,1));
             break;
         case 'DELETE':
             # code...
-            echo json_encode(' delete');
+            $id = $entityBody['ID'];
+            echo json_encode($_user->deleteUser($id));
             break;
         case 'POST':
             # code...
-            echo json_encode(' post');
+            
+            echo json_encode($_user->postUser($entityBody));
+            //echo json_encode(' post');
             break;
-                                
         default:
             # code...
-            echo "nothing";
+            echo "Invalid Operation";
             break;
     }
 ?>

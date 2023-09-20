@@ -17,19 +17,31 @@
         private $observations = "";
 
         public function getNote($id){
+            $query = "SELECT * FROM users WHERE users.ID = $id";
+            $data = parent::getData($query);
+            return $data;
+        }
+
+        public function getNotes($data){
 
         }
 
         public function postNote($data){
-
+            $query = "";
+            $result = parent::nonQueryId($query);
+            return $result;
         }
 
         public function putNote($data){
-
+            $query = "";
+            $result = parent::nonQueryId($query);
+            return $result;
         }
 
         public function deleteNote($id){
-            
+            $query = "";
+            $result = parent::nonQuery($query);
+            return $result;
         }
     }
 ?>

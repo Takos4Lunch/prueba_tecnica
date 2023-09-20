@@ -1,6 +1,6 @@
 {
     "conexion":{
-        "server" : "localhost" ,
+        "server" : "127.0.0.1" ,
         "user" : "admin" ,
         "password" : "admin123456",
         "database" : "NOTES_DB" ,

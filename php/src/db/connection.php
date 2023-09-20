@@ -32,15 +32,6 @@
             $jsondata = file_get_contents($direction . "/" . "config");
             return json_decode($jsondata,true);
         }
-
-        private function transformUTF8($array){
-            array_walk_recursive($array,function(&$item,$key){
-                if(!mb_detect_encoding($item,'utf-8',true)){
-                    $item = utf8_encode($item);
-                }
-            });
-            return $array;
-        }
         
         public function getData($sqlstr){
             $results = $this->conection->query($sqlstr);
@@ -48,7 +39,7 @@
             foreach ($results as $key) {
                 $resultArray[] = $key;
             }
-            return $this->transformUTF8($resultArray);
+            return $resultArray;
         }
     
         //general querys
@@ -67,23 +58,6 @@
                 return 0;
             }
         }
-    
-        protected function encrypt($string){
-            $salt = "0netw0thr33f0ur";
-    
-            $password = hash('sha256', $salt.$string);
-    
-            return $password;
-        }
-    
-        public function checkToken($token){
-            $query = "SELECT api_key, ip_remote, id_status, id FROM users WHERE api_key = '$token'";
-            $resp = $this->getData($query);
-            if($resp){
-                return $resp;
-            }else{
-                return 0;
-            }
-        }
+        
     }
 ?>
