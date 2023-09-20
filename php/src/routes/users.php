@@ -7,6 +7,7 @@
 
     $method = $_SERVER['REQUEST_METHOD'];
     //Request body, will be dealt with individually on a per method basis inside the switch statement
+    //This should be moved to the index, then passed through the global variable
     $entityBody = json_decode(file_get_contents('php://input'), true);
 
     switch (strtoupper($method)) {
@@ -27,7 +28,6 @@
             # code...
             
             echo json_encode($_user->postUser($entityBody));
-            //echo json_encode(' post');
             break;
         default:
             # code...

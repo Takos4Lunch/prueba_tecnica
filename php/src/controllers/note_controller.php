@@ -17,29 +17,52 @@
         private $observations = "";
 
         public function getNote($id){
-            $query = "SELECT * FROM users WHERE users.ID = $id";
+            $query = "SELECT * FROM notes WHERE notes.ID = $id";
             $data = parent::getData($query);
             return $data;
         }
 
-        public function getNotes($data){
-
+        public function getNotes($department){
+            //Should be filtered based on department
+            $query = "SELECT * FROM notes WHERE notes.department = $department";
+            $data = parent::getData($query);
+            return $data;
         }
 
         public function postNote($data){
-            $query = "";
+
+            $userID = $data['userID'];
+            $department = $data['department'];
+            $description = $data['description'];
+            $clientName = $data['client_name'];
+            $clientCompany = $data['client_company'];
+            $clientNumber = $data['client_number'];
+            $saveDate = "";
+            $delete_date = "";
+            $reactivation_date = "";
+            $observations = "";
+            $active = true;
+
+
+            $query =  "INSERT INTO " . $this->table . " (userID, department, description, clientName, clientCompany, clientNumber, saveDate, deleteDate, reactivationDate, observations, active)
+            VALUES ('$userID', '$department', '$description', '$clientName', '$clientCompany', '$clientNumber', '$saveDate', '$delete_date', '$reactivation_date', '$observations', '$active')";
             $result = parent::nonQueryId($query);
             return $result;
         }
 
         public function putNote($data){
-            $query = "";
+            $id = $data['id'];
+            $description = $data['description'];
+            $observations = $data['observations'];
+            $status = $data['status'];
+
+            $query = "UPDATE " . $this->table . " SET description = '$description', observations = '$observations', status = '$status' WHERE notes.ID = $id";;
             $result = parent::nonQueryId($query);
             return $result;
         }
 
         public function deleteNote($id){
-            $query = "";
+            $query = "DELETE FROM " . $this->table . " WHERE notes.ID= '" . $id . "'";
             $result = parent::nonQuery($query);
             return $result;
         }

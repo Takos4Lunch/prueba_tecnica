@@ -21,5 +21,7 @@ CREATE TABLE notes(
     deleteDate TIMESTAMP,
     reactivationDate TIMESTAMP,
     observations VARCHAR(255),
+    active BOOLEAN,
+    status VARCHAR(255),
     FOREIGN KEY (userID) REFERENCES users(ID)
 )
