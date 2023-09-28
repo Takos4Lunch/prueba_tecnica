@@ -1,6 +1,6 @@
 <?php
     header( 'Content-Type: application/json' );
-    require_once("php/src/controllers/Note_controller.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] .  "/controllers/Note_controller.php");
 
     $_note = new notes;
     

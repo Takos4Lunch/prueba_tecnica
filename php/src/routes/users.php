@@ -1,6 +1,6 @@
 <?php
     header( 'Content-Type: application/json' );
-    require_once("php/src/controllers/user_controller.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/controllers/user_controller.php");
     //First, we must switch between the requested HTTP verb
     //Then, apply whichever functionality we need
     $_user = new users;
@@ -10,6 +10,7 @@
     //This should be moved to the index, then passed through the global variable
     $entityBody = json_decode(file_get_contents('php://input'), true);
 
+    //Data verification should be done on this layer
     switch (strtoupper($method)) {
         case 'GET':
             $id = $entityBody['ID'];

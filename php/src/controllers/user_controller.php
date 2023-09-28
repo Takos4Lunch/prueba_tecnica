@@ -1,5 +1,5 @@
 <?php 
-    require_once("php/src/db/connection.php"); //Must use absolute path
+    require_once($_SERVER['DOCUMENT_ROOT'] .  "/db/connection.php"); //Must use absolute path
     
     class users extends connect{
 
