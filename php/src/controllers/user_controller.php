@@ -1,5 +1,5 @@
 <?php 
-    require_once($_SERVER['DOCUMENT_ROOT'] .  "/db/connection.php"); //Must use absolute path
+    require_once($_SERVER['DOCUMENT_ROOT'] .  "/php/src/db/connection.php"); //Must use absolute path
     
     class users extends connect{
 
@@ -17,10 +17,16 @@
             return $data;
         }
 
+        public function getUserByEmail($email){
+            $query = "SELECT * FROM users WHERE users.email = '$email'";
+            $data = parent::getData($query);
+            return $data[0];
+        }
+
         public function postUser($data){
 
             $username = $data['username'];
-            $password = $data['password'];
+            $password = password_hash($data['password'],PASSWORD_BCRYPT);
             $email = $data['email'];
             $role = $data['role'];
             $department = $data['department'];

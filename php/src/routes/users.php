@@ -1,6 +1,6 @@
 <?php
     header( 'Content-Type: application/json' );
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/controllers/user_controller.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/php/src/controllers/user_controller.php");
     //First, we must switch between the requested HTTP verb
     //Then, apply whichever functionality we need
     $_user = new users;
