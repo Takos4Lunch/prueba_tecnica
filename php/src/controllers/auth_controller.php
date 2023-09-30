@@ -49,8 +49,9 @@
             $_response = new response;
             $secretKey = '1234';
             try {
+                //This returns an object instead of an array, we must change that
                 $token = JWT::decode($jwt, $secretKey, ['HS512']);
-                return $token;
+                return json_encode($token); //Fixed by adding json_encode
             } catch (\Throwable $th) {
                 return $_response->message_handler('Token Verification Failed, please check your credentials and try again', 401, 'error');
             }
