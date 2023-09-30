@@ -33,7 +33,6 @@
     }
     //Getting past this point means token verification was successful
     //Now we must verify those credentials for each request
-
     //Data verification should be done on this layer
     switch (strtoupper($method)) {
         case 'GET':
@@ -51,12 +50,18 @@
             break;
         case 'DELETE':
             
-            $id = $entityBody['ID'];
-            echo json_encode($_user->deleteUser($id));
+            $check = $_verifyer->emptycheck(['ID'], $entityBody);
+            if($check['status_code'] == 200) {
+                $id = $entityBody['ID'];
+                echo  json_encode($_user->deleteUser($id));
+            }else{
+                echo json_encode($check);
+            }
             break;
         case 'POST':
             
-            
+            //Only roles available: Chief, Team Manager, Employee
+            //Only departments available: Client Support, HR, Commercial, Cleanup, Recycling Plant
             echo json_encode($_user->postUser($entityBody));
             break;
         default:

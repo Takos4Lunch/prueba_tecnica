@@ -31,12 +31,12 @@
             //So these can be used for authorization purposes
             //Lets proceed to organize the data for the payload
             $secretKey = '1234';
-            $username = $user_data['username'];
+            $userID = $user_data['ID'];
             $role = $user_data['role'];
             $department = $user_data['department'];
 
             $data = [
-                'userName' => $username,
+                'userID' => $userID,
                 'role' => $role,
                 'department' => $department
             ];

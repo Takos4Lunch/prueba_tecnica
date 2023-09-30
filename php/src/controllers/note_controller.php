@@ -1,5 +1,5 @@
 <?php
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/db/connection.php"); //Must use absolute path
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/php/src/db/connection.php"); //Must use absolute path
     require_once($_SERVER['DOCUMENT_ROOT'] . "/php/src/controllers/response_controller.php");
 
     class notes extends connect{
@@ -29,16 +29,13 @@
             $clientName = $data['client_name'];
             $clientCompany = $data['client_company'];
             $clientNumber = $data['client_number'];
-            $saveDate = "";
-            $delete_date = "";
-            $reactivation_date = "";
             $observations = "";
             $active = true;
 
-
-            $query =  "INSERT INTO " . $this->table . " (userID, department, description, clientName, clientCompany, clientNumber, saveDate, deleteDate, reactivationDate, observations, active)
-            VALUES ('$userID', '$department', '$description', '$clientName', '$clientCompany', '$clientNumber', '$saveDate', '$delete_date', '$reactivation_date', '$observations', '$active')";
+            $query =  "INSERT INTO " . $this->table . " (userID, department, description, clientName, clientCompany, clientNumber, observations, active, status) 
+            VALUES ('$userID', '$department', '$description', '$clientName', '$clientCompany', '$clientNumber', '$observations', '$active', 'Pending')";
             $result = parent::nonQueryId($query);
+            //return $query;
             return $_response->message_handler($result, 200, 'OK');
         }
 

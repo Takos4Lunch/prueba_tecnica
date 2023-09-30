@@ -25,6 +25,17 @@
 
             return $_response->message_handler('success', '200', 'OK');
         }
+
+        public function check_credentials($roles, $departments, $data){
+            //Roles and Departments are array which contain the allowed roles/departments for the operation this is called in
+            //Data contains the array with the user's credentials
+            $_response = new response;
+            if(in_array($data['role'],$roles) && in_array($data['department'],$departments)){
+                return $_response->message_handler('success', '200', 'OK');
+            }else{
+                return $_response->message_handler("Unauthorized", '401', "error");
+            }
+        }
         
     }
 ?>
