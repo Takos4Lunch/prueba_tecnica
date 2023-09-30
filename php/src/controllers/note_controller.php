@@ -1,36 +1,28 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . "/db/connection.php"); //Must use absolute path
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/php/src/controllers/response_controller.php");
 
     class notes extends connect{
 
         private $table = "notes";
-        private $username = ""; //User that creates the note
-        private $department = ""; //Department to which the note is addressed to
-        private $description = "";
-        private $client_name = "";
-        private $client_company = "";
-        private $client_number = "";
-        private $creation_date = "";
-        private $save_date = "";
-        private $delete_date = "";
-        private $reactivation_date = "";
-        private $observations = "";
 
         public function getNote($id){
+            $_response = new response;
             $query = "SELECT * FROM notes WHERE notes.ID = $id";
             $data = parent::getData($query);
-            return $data;
+            return $_response->message_handler($data[0], 200, 'OK');
         }
 
         public function getNotes($department){
             //Should be filtered based on department
+            $_response = new response;
             $query = "SELECT * FROM notes WHERE notes.department = $department";
             $data = parent::getData($query);
-            return $data;
+            return $_response->message_handler($data, 200, 'OK');
         }
 
         public function postNote($data){
-
+            $_response = new response;
             $userID = $data['userID'];
             $department = $data['department'];
             $description = $data['description'];
@@ -47,10 +39,11 @@
             $query =  "INSERT INTO " . $this->table . " (userID, department, description, clientName, clientCompany, clientNumber, saveDate, deleteDate, reactivationDate, observations, active)
             VALUES ('$userID', '$department', '$description', '$clientName', '$clientCompany', '$clientNumber', '$saveDate', '$delete_date', '$reactivation_date', '$observations', '$active')";
             $result = parent::nonQueryId($query);
-            return $result;
+            return $_response->message_handler($result, 200, 'OK');
         }
 
         public function putNote($data){
+            $_response = new response;
             $id = $data['id'];
             $description = $data['description'];
             $observations = $data['observations'];
@@ -58,13 +51,14 @@
 
             $query = "UPDATE " . $this->table . " SET description = '$description', observations = '$observations', status = '$status' WHERE notes.ID = $id";;
             $result = parent::nonQueryId($query);
-            return $result;
+            return $_response->message_handler($result, 200, 'OK');
         }
 
         public function deleteNote($id){
+            $_response = new response;
             $query = "DELETE FROM " . $this->table . " WHERE notes.ID= '" . $id . "'";
             $result = parent::nonQuery($query);
-            return $result;
+            return $_response->message_handler($result, 200, 'OK');
         }
     }
 ?>

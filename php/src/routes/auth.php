@@ -13,8 +13,12 @@
             //This is the only method that will be allowed on this endpoint
             echo json_encode($_auth->login($entityBody));
             break;
+        //Temporary enabled for verification
+        case 'GET':
+            echo json_encode($_auth->checkToken($entityBody['token']));
+            break;
         default:
-            # code...
+            
             echo "Invalid Operation";
             break;
     }
