@@ -16,9 +16,24 @@
         public function getNotes($department){
             //Should be filtered based on department
             $_response = new response;
-            $query = "SELECT * FROM notes WHERE notes.department = $department";
+            $query = "SELECT * FROM notes WHERE notes.department = '$department'";
             $data = parent::getData($query);
             return $_response->message_handler($data, 200, 'OK');
+        }
+
+        public function getAllNotes(){
+            $_response = new response;
+            $query = "SELECT * FROM notes WHERE 1";
+            $data = parent::getData($query);
+            return $_response->message_handler($data, 200, 'OK');
+        }
+
+        //Returns a single note, based on the department and user that created the note
+        public function getNoteByDepartment($id, $department, $userID){
+            $_response = new response;
+            $query = "SELECT * FROM notes WHERE notes.department = '$department' AND notes.userID = $userID AND notes.ID = $id";
+            $data = parent::getData($query);
+            return $_response->message_handler($data[0], 200, 'OK');
         }
 
         public function postNote($data){
@@ -39,9 +54,8 @@
             return $_response->message_handler($result, 200, 'OK');
         }
 
-        public function putNote($data){
+        public function putNote($data, $id){
             $_response = new response;
-            $id = $data['id'];
             $description = $data['description'];
             $observations = $data['observations'];
             $status = $data['status'];

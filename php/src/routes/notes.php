@@ -30,21 +30,119 @@
     switch (strtoupper($method)) {
         case 'GET':
             //This method should return all notes from the associated department
+            $roles = array(
+                "Chief",
+                "Team Manager",
+                "Employee"
+            );
 
-            $check = $_verifyer->emptycheck(['ID'], $entityBody);
-            if($check['status_code'] == 200) {
-                $id = $entityBody['ID'];
-                echo  json_encode($_note->getNote($id));
+            $departments = array(
+                "Client Support",
+                "HR",
+                "Commercial",
+                "Cleanup",
+                "Recycling Plant"
+            );
+
+            $credentials = json_decode($credentials, true);
+            $permissions = $_verifyer->check_credentials($roles, $departments, $credentials);
+            if ($permissions['status_code']!=200) {
+                echo json_encode($permissions);
+                break;
+            }
+
+            if($permissions['status_code'] == 200) {
+                if ($credentials['department'] == 'Client Support') {
+                    echo json_encode($_note->getAllNotes());    
+                }else{
+                    echo json_encode($_note->getNotes($credentials['department']));
+                }
             }else{
                 echo json_encode($check);
             }
             break;
         case 'PUT':
             
-            echo json_encode($_note->putNote($entityBody,1));
+            /**
+             * Users are only allowed to change:
+             * description (only whoever created it can do it)
+             * status
+             * observations
+             * 
+             * retrictions
+             * Note must be for the same department as the user's
+             * Roles: Chief, Team Manager
+             */
+
+            $fields = array(
+                "ID",
+                "description",
+                "status",
+                "observations"
+            );
+
+            $roles = array(
+                "Chief",
+                "Team Manager"
+            );
+
+            $departments = array(
+                "Client Support",
+                "HR",
+                "Commercial",
+                "Cleanup",
+                "Recycling Plant"
+            );
+
+            $emptycheck = $_verifyer->emptycheck($fields, $entityBody);
+            if($emptycheck['status_code']!=200){
+                echo json_encode($emptycheck);
+                break;
+            }
+
+            $credentials = json_decode($credentials, true);
+            $permissions = $_verifyer->check_credentials($roles, $departments, $credentials);
+            if ($permissions['status_code']!=200) {
+                echo json_encode($permissions);
+                break;
+            }
+
+            $note_data = $_note->getNoteByDepartment($entityBody['ID'], $credentials['department'], $credentials['userID']);
+            //Just in case the note doesn't exist
+            if (empty($note_data['result'])) {
+                echo json_encode($_response->message_handler('Note not found', 404, 'error'));
+                break;
+            }
+
+            //At this point, we know for sure that the note belongs to the department
+            //Time to modify the note
+
+            echo json_encode($_note->putNote($entityBody,$entityBody['ID']));
             break;
         case 'DELETE':
             
+            $roles = array(
+                "Chief",
+                "Team Manager"
+            );
+
+            $departments = array(
+                "Client Support"
+            );
+
+            $emptycheck = $_verifyer->emptycheck(['ID'], $entityBody);
+            if($emptycheck['status_code']!=200){
+                echo json_encode($emptycheck);
+                break;
+            }
+
+            $credentials = json_decode($credentials, true);
+            $permissions = $_verifyer->check_credentials($roles, $departments, $credentials);
+            if ($permissions['status_code']!=200) {
+                echo json_encode($permissions);
+                break;
+            }
+
             $id = $entityBody['ID'];
             echo json_encode($_note->deleteNote($id));
             break;
@@ -91,6 +189,7 @@
 
             $credentials = json_decode($credentials,true);
 
+            //Additional data for the note body
             $additional_data = array(
                 "status" => 'Pending',
                 "userID" => $credentials['userID']
