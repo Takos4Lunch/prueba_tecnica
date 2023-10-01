@@ -8,6 +8,26 @@ function App() {
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const makeAPICall = async (email, password) => {
+    try {
+      const response = await fetch('http://localhost:8000/auth',{
+        method: "POST",
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({"email":email, "password":password})});
+      const data = await response.json();
+      return data;
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
+
   // User Login info
   const database = [
     {
@@ -25,26 +45,20 @@ function App() {
     pass: "invalid password"
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     //Prevent page reload
     event.preventDefault();
-
     var { uname, pass } = document.forms[0];
-
+    const result = await makeAPICall(uname.value, pass.value)
     // Find user login info
     const userData = database.find((user) => user.username === uname.value);
 
     // Compare user info
-    if (userData) {
-      if (userData.password !== pass.value) {
-        // Invalid password
-        setErrorMessages({ name: "pass", message: errors.pass });
-      } else {
-        setIsSubmitted(true);
-      }
+    if (result.status_code !== 200) {
+      setErrorMessages({ name: "pass", message: result.result });
     } else {
       // Username not found
-      setErrorMessages({ name: "uname", message: errors.uname });
+      setIsSubmitted(true);
     }
   };
 
