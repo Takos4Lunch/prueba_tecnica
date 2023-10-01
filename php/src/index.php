@@ -4,7 +4,7 @@
    header("Access-Control-Allow-Headers: X-Requested-With");
    header("Allow-Access-Control-Origin: http://localhost:3000");
    header('Content-Type: application/json');
-   require_once($_SERVER['DOCUMENT_ROOT'] . '/php/src/vendor/autoload.php');
+   require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
    
    $route =  $_SERVER["REQUEST_URI"];
    $routesDir = 'routes/'; 
