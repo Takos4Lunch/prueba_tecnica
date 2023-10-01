@@ -1,5 +1,5 @@
 <?php
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/php/src/controllers/response_controller.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/controllers/response_controller.php");
 
     class verifyer {
         //This class will act as a type/data veryfication tool for the input provided by the user

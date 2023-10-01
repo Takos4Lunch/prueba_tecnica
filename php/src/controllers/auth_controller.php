@@ -1,6 +1,6 @@
 <?php 
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/php/src/controllers/user_controller.php");
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/php/src/controllers/response_controller.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/controllers/user_controller.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/controllers/response_controller.php");
     use Firebase\JWT\JWT;
 
     class auth {

@@ -1,6 +1,6 @@
 <?php 
-    require_once($_SERVER['DOCUMENT_ROOT'] .  "/php/src/db/connection.php"); //Must use absolute path
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/php/src/controllers/response_controller.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] .  "/db/connection.php"); //Must use absolute path
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/controllers/response_controller.php");
     
     class users extends connect{
 

@@ -1,6 +1,6 @@
 <?php
     header( 'Content-Type: application/json' );
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/php/src/controllers/auth_controller.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/controllers/auth_controller.php");
 
     $_auth = new auth;
 

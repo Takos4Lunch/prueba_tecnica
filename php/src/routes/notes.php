@@ -1,9 +1,9 @@
 <?php
     header( 'Content-Type: application/json' );
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/php/src/controllers/Note_controller.php");
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/php/src/controllers/verification_controller.php");
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/php/src/controllers/response_controller.php");
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/php/src/controllers/auth_controller.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/controllers/Note_controller.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/controllers/verification_controller.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/controllers/response_controller.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/controllers/auth_controller.php");
     
     $_note = new notes;
     $_verifyer = new verifyer;
